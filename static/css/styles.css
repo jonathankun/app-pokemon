@@ -1,0 +1,14 @@
+.title {
+    size: 20px;
+    background-color: #07FF5A;
+    /*https://htmlcolorcodes.com/es/*/
+}
+
+.subtitle {
+
+}
+
+.item {
+    size: 50px;
+    font-family: "Comic Sans MS";
+}

@@ -11,4 +11,4 @@ def owner_list(request):
         'vigente': True
     }
 
-    return render(request, 'owner_list.html', context={'data': data_context})
+    return render(request, 'owner/owner_list.html', context={'data': data_context})
