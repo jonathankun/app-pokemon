@@ -3,11 +3,11 @@
 {% block content %}
     <div><a href="http://unmsm.edu.pe"><strong>U.N.M.S.M</strong></a></div>
     <p>Lista de owners en la aplicación</p>
-{#    <p><strong>Nombre de Owner:</strong> {{ data.nombre_owner }}</p>#}
+{#    <p><strong>Nombre de Owner:</strong> {{ data.nombre }}</p>#}
 
-{#    {% if data.nombre_owner %}#}
+{#    {% if data.nombre %}#}
 {#        <div>#}
-{#            <p><strong>Nombre de Owner:</strong> {{ data.nombre_owner }}</p>#}
+{#            <p><strong>Nombre de Owner:</strong> {{ data.nombre }}</p>#}
 {#        </div>#}
 {#    {% else %}#}
 {#        <div style="align-content: center">#}
@@ -38,7 +38,7 @@
 {#    <ul>#}
 {#        {% for owner in data %}#}
 {#            <li>#}
-{#                <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner }}</p>#}
+{#                <p><strong>Nombre de Owner:</strong> {{ owner.nombre }}</p>#}
 {#                <p><strong>Edad: </strong>{{ owner.edad }}</p>#}
 {#          </li>#}
 {#        {% endfor %}#}
@@ -48,10 +48,12 @@
         <ul>
         {% for owner in data reversed %}
             <li>
-{#                {% ifequal owner.nombre_owner 'Daniel' %}#}
+{#                {% ifequal owner.nombre 'Daniel' %}#}
 {#                    <p>Existe un owner con nombre 'Daniel'</p>#}
-                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner }}</p>
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre }}</p>
                     <p><strong>Edad: </strong>{{ owner.edad }}</p>
+                    <p><strong>Pais: </strong>{{ owner.pais }}</p>
+                    <p><strong>DNI: </strong>{{ owner.dni }}</p>
 {#                {% endifequal %}#}
           </li>
         {% endfor %}
@@ -63,7 +65,7 @@
         <ul>
         {% for owner in data %}
             <li>
-                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner|lower|slugify }}</p>
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre|lower|slugify }}</p>
           </li>
         {% endfor %}
         </ul>
@@ -74,7 +76,7 @@
         <ul>
         {% for owner in data %}
             <li>
-                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner|upper }}</p>
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre|upper }}</p>
           </li>
         {% endfor %}
         </ul>
@@ -83,7 +85,7 @@
         <h5>Uso del filter "cut"</h5>
         {% for owner in data %}
             <li>
-                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner|cut:" "}} </p>
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre|cut:" "}} </p>
           </li>
         {% endfor %}
         </ul>
