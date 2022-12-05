@@ -1,6 +1,6 @@
 .title {
-    size: 20px;
-    background-color: #07FF5A;
+    size: 25px;
+    background-color: burlywood;
     /*https://htmlcolorcodes.com/es/*/
 }
 
@@ -11,4 +11,8 @@
 .item {
     size: 50px;
     font-family: "Comic Sans MS";
+}
+
+.null{
+    color: #F9473F;
 }

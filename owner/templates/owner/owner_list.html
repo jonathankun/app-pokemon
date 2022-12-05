@@ -3,7 +3,89 @@
 {% block content %}
     <div><a href="http://unmsm.edu.pe"><strong>U.N.M.S.M</strong></a></div>
     <p>Lista de owners en la aplicación</p>
-    <p><strong>Nombre de Owner:</strong> {{ data.nombre_owner }}</p>
-    <p><strong>Edad de Owner:</strong> {{ data.edad }}</p>
-    <p><strong>Pais: </strong>{{ data.pais }}</p>
+{#    <p><strong>Nombre de Owner:</strong> {{ data.nombre_owner }}</p>#}
+
+{#    {% if data.nombre_owner %}#}
+{#        <div>#}
+{#            <p><strong>Nombre de Owner:</strong> {{ data.nombre_owner }}</p>#}
+{#        </div>#}
+{#    {% else %}#}
+{#        <div style="align-content: center">#}
+{#            <strong>Nombre de Owner:</strong><p class="null">Sin nombre</p>#}
+{#        </div>#}
+{##}
+{#    {% endif %}#}
+{##}
+{#    <div>#}
+{#        {% if data.edad and data.dni %}#}
+{#            <p><strong>Edad de Owner:</strong> {{ data.edad }}</p>#}
+{#            <p>El dato de edad del owner es correcto</p>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#    <div>#}
+{#        <p><strong>Pais: </strong>{{ data.pais }}</p>#}
+{#    </div>#}
+{#        <div>#}
+{#        <p><strong>DNI: </strong>{{ data.dni }}</p>#}
+{#    </div>#}
+{##}
+{#    {% if data.dni %}#}
+{#        {% if not data.vigente %}#}
+{#            <h4>¡Su pase ya no está vigente!</h4>#}
+{#        {% endif %}#}
+{#    {% endif %}#}
+
+{#    <ul>#}
+{#        {% for owner in data %}#}
+{#            <li>#}
+{#                <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner }}</p>#}
+{#                <p><strong>Edad: </strong>{{ owner.edad }}</p>#}
+{#          </li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+
+
+        <ul>
+        {% for owner in data reversed %}
+            <li>
+{#                {% ifequal owner.nombre_owner 'Daniel' %}#}
+{#                    <p>Existe un owner con nombre 'Daniel'</p>#}
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner }}</p>
+                    <p><strong>Edad: </strong>{{ owner.edad }}</p>
+{#                {% endifequal %}#}
+          </li>
+        {% endfor %}
+
+        </ul>
+
+        <h2>Aplicando Filtros:</h2>
+
+        <ul>
+        {% for owner in data %}
+            <li>
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner|lower|slugify }}</p>
+          </li>
+        {% endfor %}
+        </ul>
+
+        <h5>La cantidad de owners actuamente es de: {{ data|length }}</h5><br>
+
+        <h5>Uso del filter "upper"</h5>
+        <ul>
+        {% for owner in data %}
+            <li>
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner|upper }}</p>
+          </li>
+        {% endfor %}
+        </ul>
+
+        <ul>
+        <h5>Uso del filter "cut"</h5>
+        {% for owner in data %}
+            <li>
+                    <p><strong>Nombre de Owner:</strong> {{ owner.nombre_owner|cut:" "}} </p>
+          </li>
+        {% endfor %}
+        </ul>
+
 {% endblock %}
