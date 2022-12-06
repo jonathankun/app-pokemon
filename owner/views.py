@@ -117,6 +117,7 @@ def owner_list(request):
 def owner_search(request):
     query = request.GET.get('q', '')
 
+    # icontains: busca lo que escribimos en el buscador
     result = (
         Q(nombre__icontains=query)
     )
@@ -124,3 +125,8 @@ def owner_search(request):
     datacontext = Owner.objects.filter(result).distinct()
 
     return render(request, 'owner/owner_seach.html', context={'data': datacontext, 'query': query})
+
+def owner_details(request):
+    """Obtener todos los elementos de una tabla en la BD"""
+    owners = Owner.objects.all()
+    return render(request, 'owner/owners_details.html', context={'data': owners})
