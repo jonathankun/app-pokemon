@@ -1,9 +1,17 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.urls import reverse_lazy
+
+from owner.forms import OwnerForm
 from owner.models import Owner
-from django.db.models import F
-from django.db.models import Q
+from django.db.models import F, Q
+
+from django.views.generic import ListView, DeleteView, CreateView, UpdateView
+
+#Serialize
+from django.core import serializers as ssr
 
 def owner_list(request):
     data_context = {
@@ -118,10 +126,10 @@ def owner_search(request):
     query = request.GET.get('q', '')
 
     # icontains: busca lo que escribimos en el buscador
+    print("Query: {}".format(query))
     result = (
-        Q(nombre__icontains=query)
+         Q(nombre__icontains=query)
     )
-
     datacontext = Owner.objects.filter(result).distinct()
 
     return render(request, 'owner/owner_seach.html', context={'data': datacontext, 'query': query})
@@ -129,4 +137,76 @@ def owner_search(request):
 def owner_details(request):
     """Obtener todos los elementos de una tabla en la BD"""
     owners = Owner.objects.all()
+    #print("El tipo de dato de la variable es: {}".format(type(owners)))
+    #print(owners)
     return render(request, 'owner/owners_details.html', context={'data': owners})
+
+def owner_create(request):
+
+     if request.method == "POST":
+         print("ES UN POST")
+         form = OwnerForm(request.POST)
+         if form.is_valid():
+             #nombre = form.cleaned_data['nombre']
+             #print("Nombre: {}".format(nombre))
+             #edad = form.cleaned_data['edad']
+             #pais = form.cleaned_data['pais']
+             try:
+                 form.save()
+                 return redirect('owner_list')
+             except:
+                 pass
+     else:
+         form = OwnerForm()
+     return render(request, 'owner/owner-create.html', {'form': form})
+
+
+
+def owner_delete(request, id_owner):
+    print("ID: {}".format(id_owner))
+    owner = Owner.objects.get(id=id_owner)
+    owner.delete()
+    return redirect('owner_detail')
+
+def owner_edit(request, id_owner):
+     owner = Owner.objects.get(id=id_owner)
+     form = OwnerForm(initial={'nombre': owner.nombre, 'edad': owner.edad, 'pais': owner.pais, 'dni': owner.dni})
+
+     if request.method == 'POST':
+         form = OwnerForm(request.POST, instance=owner)
+         if form.is_valid():
+             form.save()
+             return redirect('owner_detail')
+
+     return render(request, 'owner/owner_update.html', {'form': form})
+
+"""Vistas basadas en clases"""
+"""ListView, CreateView, UpdateView, DeleteView"""
+
+class OwnerList(ListView):
+    model = Owner
+    template_name = 'owner/owner_vc.html'
+
+class OwnerCreate(CreateView):
+    model = Owner
+    form_class = OwnerForm
+    template_name = 'owner/owner-create.html'
+    success_url = reverse_lazy('owner_list_vc')
+
+class OwnerUpdate(UpdateView):
+    model = Owner
+    form_class = OwnerForm
+    success_url = reverse_lazy('owner_list_vc')
+    template_name = 'owner/owner_update-vc.html'
+
+class OwnerDelete(DeleteView):
+    model = Owner
+    success_url = reverse_lazy('owner_list_vc') #Lazy cuando ha sido exitoso
+    template_name = 'owner/owner-confirm-delete.html'
+
+
+"""Serializers"""
+
+def ListOwnerSerializer(request):
+    lista = ssr.serialize('json', Owner.objects.all(), fields=['nombre', 'pais', 'edad'])
+    return HttpResponse(lista, content_type="application/json")

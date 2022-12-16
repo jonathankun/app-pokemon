@@ -1,12 +1,12 @@
 {% extends "owner/base_generic.html" %}
 
 {% block content %}
-    <div>
-        <form action="." method="GET">
-            <label>Búsqueda: </label>
-            <input type="text" name="q" value="{{ query | escape }}"> {% comment %}escape sale del input y busca{% endcomment %}
-        </form>
-    </div>
+    <label>Búsqueda: </label>
+        <div class="mb-3">
+                <form action="." method="GET">
+            <input class="form-control col-sm-10" type="text" name="q" value="{{ query | escape }}"> {% comment %}escape sale del input y busca{% endcomment %}
+                </form>
+        </div>
 
     {% if query %}
         <h2>Resultados para "{{ query| escape }}"</h2>
@@ -14,7 +14,7 @@
         {% if data %}
             <ul>
                 {% for owner in data %}
-                    <li>{{ owner.nombre }} es de {{ owner.pais }} que tiene {{ owner.edad }} años</li>
+                    <li>{{ owner.nombre }} es de {{ owner.pais }} y tiene {{ owner.edad }} años</li>
                 {% endfor %}
             </ul>
         {% else %}

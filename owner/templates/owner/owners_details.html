@@ -6,17 +6,22 @@
 
     <div class="card-body">
         <form action="" method="post"></form>
-
+           {% csrf_token %}
         <table class="table table-striped">
             <thead>
                 <th scope="col">#</th>
                 <th scope="col">Descripción</th>
+                <th scope="col">Accion</th>
             </thead>
             <tbody>
                 {% for owner in data %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
                         <td><p>{{ owner.nombre }} tiene {{ owner.edad }} años y es de {{ owner.pais }}</p></td>
+                    <td>
+                        <a type="button" class="btn btn-info" href="{% url 'owner_edit' owner.id%}">Editar Owner</a>
+                        <a type="button" class="btn btn-danger" href="{% url 'owner_delete' owner.id%}">Eliminar Owner</a>
+                    </td>
                     </tr>
                 {% endfor %}
             </tbody>
