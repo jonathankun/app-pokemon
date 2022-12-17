@@ -29,5 +29,9 @@ urlpatterns = [
     path('owner_delete_vc_ref03/(?P<pk>[0-9]+)/$', views.OwnerDelete_ref03.as_view(), name="owner_delete_vc_ref03"),
 
     #URLs serializers
-    path('owner_list_serializer/', views.ListOwnerSerializer, name='owner_list_srr')
+    path('owner_list_serializer/', views.ListOwnerSerializer, name='owner_list_srr'),
+
+    #URLs Django RestFramework
+    path('owner_list_drf_def/', views.owner_api_view, name='owner_list_rf_def'),
+    path('owner_detail_drf_def/<int:pk>', views.owner_detail_view, name='owner_detail_rf_def')
 ]
