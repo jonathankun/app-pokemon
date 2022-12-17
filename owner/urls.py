@@ -11,11 +11,22 @@ urlpatterns = [
     path('owner_delete/(?P<id_owner>[0-9]+)/$', views.owner_delete, name="owner_delete"),
     path('owner_edit/(?P<id_owner>[0-9]+)/$', views.owner_edit, name="owner_edit"),
 
+    #Reforzamiento03
+    path('owner_list_ref03_01/', views.owner_list_ref03_01, name="owner_list_ref03_01"),
+    path('owner_search_ref03_02/', views.owner_search_ref03_02, name="owner_search_ref03_02"),
+    path('owner_edit_ref03_01/(?P<id_owner>[0-9]+)/$', views.owner_edit_ref03_01, name="owner_edit_ref03_01"),
+    path('owner_delete_ref03_01/(?P<id_owner>[0-9]+)/$', views.owner_delete_ref03_01, name="owner_delete_ref03_01"),
+
     #URLs para las vistas basadas en clases.
     path('owner_list_vc/', views.OwnerList.as_view(), name="owner_list_vc"),
     path('owner_create_vc', views.OwnerCreate.as_view(), name="owner_create_vc"),
     path('owner_edit_vc/(?P<pk>[0-9]+)/$', views.OwnerUpdate.as_view(), name="owner_edit_vc"),
     path('owner_delete_vc/(?P<pk>[0-9]+)/$', views.OwnerDelete.as_view(), name="owner_delete_vc"),
+
+    path('owner_list_vc_ref03/', views.OwnerList_ref03.as_view(), name="owner_list_vc_ref03"),
+    path('owner_create_vc_ref03', views.OwnerCreate_ref03.as_view(), name="owner_create_vc_ref03"),
+    path('owner_edit_vc_ref03/(?P<pk>[0-9]+)/$', views.OwnerUpdate_ref03.as_view(), name="owner_edit_vc_ref03"),
+    path('owner_delete_vc_ref03/(?P<pk>[0-9]+)/$', views.OwnerDelete_ref03.as_view(), name="owner_delete_vc_ref03"),
 
     #URLs serializers
     path('owner_list_serializer/', views.ListOwnerSerializer, name='owner_list_srr')

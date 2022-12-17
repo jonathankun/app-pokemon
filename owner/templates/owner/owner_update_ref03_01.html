@@ -1,0 +1,17 @@
+{% extends "owner/base_generic.html" %}
+
+{% block content %}
+    <div class="card-body">
+        <h4>Editar Owner</h4>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }} {#Mostrar formulario directamente en el template#}
+
+            <a class="btn btn-danger" type="button" href="{% url 'owner_list_ref03_01' %}">Cancelar</a>
+            <button class="btn btn-success" type="submit">Guardar Owner</button>
+        </form>
+
+    </div>
+
+{% endblock %}

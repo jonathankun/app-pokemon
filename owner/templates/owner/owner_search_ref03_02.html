@@ -1,0 +1,30 @@
+{% extends "owner/base_generic.html" %}
+
+{% block content %}
+    <label>Búsqueda: </label>
+        <div class="mb-3">
+                <form action="." method="GET">
+            <input class="form-control col-sm-10" type="text" name="q" value="{{ query | escape }}"> {% comment %}escape sale del input y busca{% endcomment %}
+                </form>
+        </div>
+
+    {% if query %}
+        <h2>Resultados para "{{ query| escape }}"</h2>
+
+        {% if data %}
+            <ul>
+                {% for owner in data %}
+                    <li>{{ owner.nombre }} es de {{ owner.pais }} y actualmente tiene {{ owner.edad }} años y su identificación
+                    {% if owner.vigente %}
+                        está vigente
+                    {% else %}
+                        no está vigente
+                    {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No se ha nencontrado owners con la coincidencia "{{ query | escape }}"</p>
+        {% endif%}
+    {% endif %}
+{% endblock %}

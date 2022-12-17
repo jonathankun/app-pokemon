@@ -113,8 +113,8 @@ def owner_list(request):
     #query = Q(pais__startswith ='Pe') & ~Q(edad=21)
     #owners = Owner.objects.filter(query)
 
-    query = Q(pais__startswith='Pe') | Q(pais__startswith='Br')
-    owners = Owner.objects.filter(query, edad=21)
+    #query = Q(pais__startswith='Pe') | Q(pais__startswith='Br')
+    #owners = Owner.objects.filter(query, edad=21)
 
     """Error de consulta Q, no es válido"""
     #query = Q(pais__startswith='Pe') | Q(pais__startswith='Br')
@@ -160,8 +160,6 @@ def owner_create(request):
          form = OwnerForm()
      return render(request, 'owner/owner-create.html', {'form': form})
 
-
-
 def owner_delete(request, id_owner):
     print("ID: {}".format(id_owner))
     owner = Owner.objects.get(id=id_owner)
@@ -179,6 +177,50 @@ def owner_edit(request, id_owner):
              return redirect('owner_detail')
 
      return render(request, 'owner/owner_update.html', {'form': form})
+
+def owner_list_ref03_01(request):
+    owners = Owner.objects.all()
+    dataperu = Owner.objects.filter(pais="Perú")
+    dataargentina = Owner.objects.filter(pais="Argentina")
+
+    return render(request, 'owner/owner_list_ref03_01.html', context={'data': owners, 'dataperu': dataperu, 'dataargentina': dataargentina})
+
+def owner_search_ref03_02(request):
+    query = request.GET.get('q', '')
+
+    # icontains: busca lo que escribimos en el buscador
+    print("Query: {}".format(query))
+    result = (
+         Q(nombre__icontains=query)
+    )
+    datacontext = Owner.objects.filter(result).distinct()
+
+    return render(request, 'owner/owner_search_ref03_02.html', context={'data': datacontext, 'query': query})
+
+
+def owner_edit_ref03_01(request, id_owner):
+    owner = Owner.objects.get(id=id_owner)
+    form = OwnerForm(initial={'nombre': owner.nombre, 'edad': owner.edad, 'pais': owner.pais, 'dni': owner.dni})
+
+    if request.method == 'POST':
+        form = OwnerForm(request.POST, instance=owner)
+        if form.is_valid():
+            form.save()
+            return redirect('owner_list_ref03_01')
+
+    return render(request, 'owner/owner_update_ref03_01.html', {'form': form})
+
+def owner_delete_ref03_01(request, id_owner):
+    print("ID: {}".format(id_owner))
+    owner = Owner.objects.get(id=id_owner)
+    form = OwnerForm(initial={'nombre': owner.nombre, 'edad': owner.edad, 'pais': owner.pais, 'dni': owner.dni})
+
+    if request.method == 'POST':
+        form = OwnerForm(request.POST, instance=owner)
+        owner.delete()
+        return redirect('owner_list_ref03_01')
+
+    return render(request,'owner/owner-confirm-delete-ref03_01.html', {'form': form})
 
 """Vistas basadas en clases"""
 """ListView, CreateView, UpdateView, DeleteView"""
@@ -204,9 +246,28 @@ class OwnerDelete(DeleteView):
     success_url = reverse_lazy('owner_list_vc') #Lazy cuando ha sido exitoso
     template_name = 'owner/owner-confirm-delete.html'
 
+class OwnerList_ref03(ListView):
+    model = Owner
+    template_name = 'owner/owner_list_vc_ref03.html'
+
+class OwnerCreate_ref03(CreateView):
+    model = Owner
+    form_class = OwnerForm
+    template_name = 'owner/owner_create_vc_ref03.html'
+    success_url = reverse_lazy('owner_list_vc_ref03')
+
+class OwnerUpdate_ref03(UpdateView):
+    model = Owner
+    form_class = OwnerForm
+    success_url = reverse_lazy('owner_list_vc_ref03')
+    template_name = 'owner/owner_update_vc_ref03.html'
+
+class OwnerDelete_ref03(DeleteView):
+    model = Owner
+    success_url = reverse_lazy('owner_list_vc_ref03') #Lazy cuando ha sido exitoso
+    template_name = 'owner/owner-confirm-delete.html'
 
 """Serializers"""
-
 def ListOwnerSerializer(request):
     lista = ssr.serialize('json', Owner.objects.all(), fields=['nombre', 'pais', 'edad'])
     return HttpResponse(lista, content_type="application/json")

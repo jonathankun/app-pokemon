@@ -1,0 +1,35 @@
+{% extends "owner/base_generic.html" %}
+{% block content %}
+    <div><a href="http://unmsm.edu.pe"><strong>U.N.M.S.M</strong></a></div>
+    <p>Reforzamiento 03 - Pregunta 01</p>
+
+     <table class="table table-striped">
+        <thead>
+            <th scope="col">Nro Orden</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Edad</th>
+             <th scope="col">Pais</th>
+            <th scope="col">Acción</th>
+        </thead>
+
+        <tbody>
+            {% for owner in data %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td><p>{{ owner.nombre }}</p></td>
+                    <td>{{ owner.edad }}</td>
+                    <td>{{ owner.pais }}</td>
+                     <td>
+                        <a type="button" class="btn btn-info" href="{% url 'owner_edit_ref03_01' owner.id%}">Editar Owner</a>
+                        <a type="button" class="btn btn-danger" href="{% url 'owner_delete_ref03_01' owner.id%}">Eliminar Owner</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+              <ul>
+                    <li>Hay {{ dataperu.count }} Owners de Perú </li>
+                     <li>Hay {{ dataargentina.count }} Owners de Argentina </li>
+            </ul>
+
+{% endblock %}
